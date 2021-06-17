@@ -6,13 +6,14 @@ namespace Products
     {
         static void Main(string[] args)
         {
+            string fileName = "products";
             var products = ProductRepository.GenerateProducts(1000);
-            ProductRepository.MakeJson(products, "products");
-            var productsByPrice = ProductRepository.SplitByPrice(products.Values);
+            ProductRepository.MakeJson(products, fileName);
+            var prods = ProductRepository.ReadJson(fileName);
+            var productsByPrice = ProductRepository.SplitByPrice(prods.Values);
             foreach (var p in productsByPrice)
             {
-                string fileName = p.Key.ToString();
-                ProductRepository.MakeJson(p.Value, fileName);
+                ProductRepository.MakeJson(p.Value, p.Key.ToString());
             }
         }
     }
