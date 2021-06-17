@@ -27,6 +27,13 @@ namespace Products.Repository
             File.WriteAllText(fileName + ".json", jsonString);
         }
 
+        public static IDictionary<int, Product> ReadJson(string fileName)
+        {
+            var file = File.ReadAllBytes(fileName + ".json");
+            IDictionary<int, Product> products = JsonSerializer.Deserialize<IDictionary<int, Product>>(file);
+            return products;
+        }
+
         public static IDictionary<int, Product> GenerateProducts(int prodCount)
         {
             var products = new Dictionary<int, Product>(prodCount);
@@ -43,7 +50,7 @@ namespace Products.Repository
             foreach (Product product in products)
             {
                 int price = product.Price;
-                int key = price / 101;
+                int key = (price - 1) / 100;
                 if (!prodByPrice.ContainsKey(key))
                 {
                     prodByPrice[key] = new List<Product>();
